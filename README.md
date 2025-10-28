@@ -13,7 +13,7 @@ A test suite for secure bootloader chain
 │       └── bad_key_2.pem
 ├── bootloaders
 │   └── unsigned_2nd_bootloader
-├── run_test_suite.py
+├── run_test_suite
 ├── singlestage.py
 ├── tc.py
 ├── twostage.py
