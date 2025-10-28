@@ -1,0 +1,40 @@
+import sys
+
+import utility as util
+import singlestage
+import twostage
+import tc
+
+test_common = [
+    tc.test_bad_meta_data,
+    tc.test_corrupted_image,
+    tc.test_inauthentic_image
+]
+
+@util.flash_single_stage_bootloader
+def run_single_stage_suite():
+    bl = singlestage.SingleStage()
+    test_collection = test_common
+    try:
+        for test_func in test_collection:
+            test_func(bl)
+    except Exception:
+        pass
+
+
+@util.flash_two_stage_bootloader
+def run_two_stage_suite():
+    bl = twostage.TwoStage()
+    test_collection = test_common + [tc.test_upgrade_bad_bootloader]
+    try:
+        for test_func in test_collection:
+            test_func(bl)
+    except Exception:
+        pass
+
+if __name__ == "__main__":
+    test_mode = sys.argv[1]
+    if test_mode == "single_stage":
+        run_single_stage_suite()
+    elif test_mode == "two_stage":
+        run_two_stage_suite()
